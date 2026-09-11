@@ -52,8 +52,8 @@ const cardMotion = {
 const nodeCards = [
   { id: "geo-card", className: "geo-card", icon: Robot, title: "GEO", chip: "AI 搜索引擎", metric: "AI 推荐曝光量", value: 12860, tone: "violet" },
   { id: "product-card", className: "product-card", icon: ShoppingBagOpen, title: "商品卡", metric: "商品卡出卡量", value: 2315, tone: "violet" },
-  { id: "ad-card", className: "ad-card", icon: Megaphone, title: "广告", metric: "广告点击量", value: 1946, tone: "blue" },
   { id: "site-card", className: "site-card", icon: Desktop, title: "官网", metric: "官网曝光量", value: 3680, tone: "blue" },
+  { id: "ad-card", className: "ad-card", icon: Megaphone, title: "广告", metric: "广告点击量", value: 1946, tone: "blue" },
   { id: "phone-card", className: "phone-card", icon: Phone, title: "电话", metric: "电话曝光量", value: 418, tone: "teal" },
   { id: "address-card", className: "address-card", icon: MapPin, title: "地址", metric: "地址曝光量", value: 276, tone: "teal" },
   { id: "lead-card", className: "lead-card", icon: ChatsCircle, title: "咨询留资", metric: "咨询留资量", value: 326, tone: "teal" },
@@ -72,16 +72,16 @@ const connectorPaths = [
   { id: "geo-search", from: "geo-card", to: "search-hub", tone: "purple", d: "M198 210 C226 210 250 225 282 225", tip: "GEO带动主动搜索", tipX: 239, tipY: 201 },
   { id: "geo-product", from: "geo-card", to: "product-card", tone: "purple", d: "M108 281 C108 320 98 350 98 385", tip: "GEO直接触发商品卡", tipX: 173, tipY: 331 },
   { id: "geo-phone", from: "geo-card", to: "phone-card", tone: "purple", d: "M154 137 C290 49 745 48 900 104", tip: "AI回答展示联系电话", tipX: 706, tipY: 63 },
-  { id: "geo-site", from: "geo-card", to: "site-card", tone: "purple", d: "M180 140 C320 103 603 105 650 302", tip: "GEO推荐直达官网", tipX: 465, tipY: 103 },
+  { id: "geo-site", from: "geo-card", to: "site-card", tone: "purple", d: "M180 140 C320 103 602 106 650 149", tip: "GEO推荐直达官网", tipX: 465, tipY: 103 },
   { id: "geo-address", from: "geo-card", to: "address-card", tone: "purple", d: "M169 139 C310 76 704 77 827 280", tip: "AI回答展示地址", tipX: 620, tipY: 78 },
   { id: "product-phone", from: "product-card", to: "phone-card", tone: "purple", d: "M179 453 C330 520 900 522 900 216", tip: "商品卡引导电话咨询", tipX: 555, tipY: 506 },
-  { id: "search-ad", from: "search-hub", to: "ad-card", tone: "blue", d: "M500 188 C528 188 540 204 568 204", tip: "搜索结果进入广告", tipX: 535, tipY: 181 },
-  { id: "search-site", from: "search-hub", to: "site-card", tone: "blue", d: "M500 254 C536 254 535 344 568 344", tip: "搜索结果进入官网", tipX: 542, tipY: 281 },
+  { id: "search-site", from: "search-hub", to: "site-card", tone: "blue", d: "M500 188 C528 188 540 204 568 204", tip: "搜索结果进入官网", tipX: 535, tipY: 181 },
+  { id: "search-ad", from: "search-hub", to: "ad-card", tone: "blue", d: "M500 254 C536 254 535 344 568 344", tip: "搜索结果进入广告", tipX: 542, tipY: 281 },
   { id: "search-address", from: "search-hub", to: "address-card", tone: "blue", d: "M500 318 C590 331 725 306 827 292", tip: "搜索结果展示地址", tipX: 702, tipY: 309 },
-  { id: "ad-lead", from: "ad-card", to: "lead-card", tone: "teal", d: "M730 204 C803 225 878 323 880 396", tip: "广告点击产生留资", tipX: 816, tipY: 268 },
-  { id: "site-phone", from: "site-card", to: "phone-card", tone: "teal", d: "M730 329 C783 311 774 181 827 180", tip: "官网引导电话咨询", tipX: 795, tipY: 241 },
-  { id: "site-address", from: "site-card", to: "address-card", tone: "teal", d: "M730 358 C770 358 787 318 827 318", tip: "官网提供到店地址", tipX: 782, tipY: 337 },
-  { id: "site-lead", from: "site-card", to: "lead-card", tone: "teal", d: "M730 386 C775 393 788 450 827 450", tip: "官网表单产生留资", tipX: 785, tipY: 419 },
+  { id: "site-phone", from: "site-card", to: "phone-card", tone: "teal", d: "M730 180 C765 180 792 180 827 180", tip: "官网引导电话咨询", tipX: 779, tipY: 168 },
+  { id: "site-address", from: "site-card", to: "address-card", tone: "teal", d: "M730 204 C770 220 787 302 827 318", tip: "官网提供到店地址", tipX: 784, tipY: 252 },
+  { id: "site-lead", from: "site-card", to: "lead-card", tone: "teal", d: "M730 220 C780 252 789 430 827 450", tip: "官网表单产生留资", tipX: 786, tipY: 337 },
+  { id: "ad-lead", from: "ad-card", to: "lead-card", tone: "teal", d: "M730 358 C786 361 825 390 827 424", tip: "广告点击产生留资", tipX: 784, tipY: 374 },
 ];
 
 function BrandMark() {
@@ -157,7 +157,7 @@ function RelationshipMap() {
   return (
     <section className="journey-panel" aria-labelledby="journey-title">
       <div className="section-heading journey-heading">
-        <div><div className="heading-title-row"><Sparkle size={20} weight="fill" aria-hidden="true" /><h1 id="journey-title">客户获取关系图</h1></div><p>从 AI 曝光到实际用户行为的全链路转化路径</p></div>
+        <div><div className="heading-title-row"><Sparkle size={20} weight="fill" aria-hidden="true" /><h1 id="journey-title">GEO获客旅程看板</h1></div><p>从 AI 曝光到实际用户行为的全链路转化路径</p></div>
         <div className="date-chip" aria-label="当前统计周期 2026年9月5日至9月11日"><span>2026/09/05 — 09/11</span><CalendarBlank size={18} /></div>
       </div>
       <div className={`journey-canvas${activeNodeId ? " has-active-node" : ""}`}>
@@ -252,37 +252,41 @@ const searchContentRows = [
 ];
 
 const channelRows = [
-  ["广告", "360搜索品牌专区", "派瑞林涂层解决方案", "486", "38", "09/11 16:10"],
   ["官网", "AI 回答直达", "/solutions/parylene", "342", "31", "09/11 15:42"],
-  ["广告", "百度搜索推广", "电子元件防潮", "317", "24", "09/11 13:18"],
   ["官网", "百度自然搜索", "/cases/electronics", "286", "19", "09/10 18:05"],
   ["官网", "360自然搜索", "/products/coating-c", "241", "17", "09/10 14:33"],
+  ["广告", "360搜索品牌专区", "派瑞林涂层解决方案", "486", "38", "09/11 16:10"],
+  ["广告", "百度搜索推广", "电子元件防潮", "317", "24", "09/11 13:18"],
   ["广告", "360搜索行业词", "真空镀膜服务", "226", "14", "09/09 20:11"],
 ];
 
 const behaviorRows = [
-  ["咨询留资", "广告 → 留资表单", "360搜索", "上海", "访客 A31***", "09/11 16:42"],
   ["电话曝光", "GEO → 电话", "DeepSeek", "江苏", "回答 R19***", "09/11 15:18"],
-  ["地址曝光", "搜索 → 地址", "百度", "浙江", "查询 Q72***", "09/11 13:06"],
-  ["咨询留资", "官网 → 在线咨询", "官网", "广东", "访客 D31***", "09/11 11:29"],
   ["电话曝光", "商品卡 → 电话", "商品卡", "北京", "卡片 C08***", "09/10 19:37"],
+  ["地址曝光", "搜索 → 地址", "百度", "浙江", "查询 Q72***", "09/11 13:06"],
   ["地址曝光", "GEO → 地址", "豆包", "湖北", "回答 B7E***", "09/10 14:55"],
-  ["咨询留资", "官网 → 留言表单", "官网", "山东", "访客 H25***", "09/10 10:26"],
   ["地址曝光", "官网 → 地址", "官网", "四川", "访客 P06***", "09/09 17:11"],
+  ["咨询留资", "广告 → 留资表单", "360搜索", "上海", "访客 A31***", "09/11 16:42"],
+  ["咨询留资", "官网 → 在线咨询", "官网", "广东", "访客 D31***", "09/11 11:29"],
+  ["咨询留资", "官网 → 留言表单", "官网", "山东", "访客 H25***", "09/10 10:26"],
 ];
 
 const floorTrends = {
-  geo: [74, 78, 81, 85, 89, 94, 100].map((value, index) => ({ day: `09/${String(index + 5).padStart(2, "0")}`, value })),
   search: [61, 68, 64, 73, 79, 83, 91].map((value, index) => ({ day: `09/${String(index + 5).padStart(2, "0")}`, value })),
   channel: [46, 51, 58, 56, 67, 74, 78].map((value, index) => ({ day: `09/${String(index + 5).padStart(2, "0")}`, value })),
   behavior: [33, 39, 36, 48, 52, 58, 64].map((value, index) => ({ day: `09/${String(index + 5).padStart(2, "0")}`, value })),
 };
 
+const geoFloorTrends = {
+  visibility: [74, 78, 81, 85, 89, 94, 100].map((value, index) => ({ day: `09/${String(index + 5).padStart(2, "0")}`, value })),
+  media: [5, 7, 9, 12, 16, 19, 24].map((value, index) => ({ day: `09/${String(index + 5).padStart(2, "0")}`, value })),
+};
+
 const stageMeta = {
   geo: { number: "01", title: "GEO", subtitle: "可见度与内容交付", icon: Robot, tone: "violet", note: "从被 AI 看见，到让优质内容成为可引用信源" },
   search: { number: "02", title: "搜索与内容平台", subtitle: "主动搜索与内容触达", icon: MagnifyingGlass, tone: "blue", note: "拆解百度、360搜索与六大内容平台的真实贡献" },
-  channel: { number: "03", title: "承接渠道", subtitle: "广告与官网承接", icon: Buildings, tone: "cyan", note: "观察流量进入广告和官网后的承接效率与去向" },
-  behavior: { number: "04", title: "最终行为", subtitle: "留资与关键信息曝光", icon: UsersThree, tone: "teal", note: "区分真实留资事件与电话、地址信息曝光" },
+  channel: { number: "03", title: "承接渠道", subtitle: "官网与广告承接", icon: Buildings, tone: "cyan", note: "观察流量进入官网和广告后的承接效率与去向" },
+  behavior: { number: "04", title: "最终行为", subtitle: "关键信息曝光与留资", icon: UsersThree, tone: "teal", note: "区分电话、地址信息曝光与真实咨询留资事件" },
 };
 
 const geoSummary = {
@@ -310,16 +314,16 @@ const floorMetrics = {
     { label: "覆盖平台", value: 6, suffix: "个", note: "内容阵地" },
   ],
   channel: [
-    { label: "广告点击量", value: 1946, note: "搜索广告点击" },
     { label: "官网曝光量", value: 3680, note: "AI 与搜索曝光" },
     { label: "官网访问事件", value: 549, note: "可追踪访问" },
+    { label: "广告点击量", value: 1946, note: "搜索广告点击" },
     { label: "承接留资量", value: 326, note: "广告及官网" },
   ],
   behavior: [
-    { label: "咨询留资量", value: 326, note: "真实表单/咨询" },
     { label: "电话曝光量", value: 418, note: "不等于拨打" },
     { label: "地址曝光量", value: 276, note: "不等于到店" },
     { label: "来源关联率", display: "92.9%", note: "可回溯路径" },
+    { label: "咨询留资量", value: 326, note: "真实表单/咨询" },
   ],
 };
 
@@ -338,7 +342,7 @@ function PlatformMiniatures() {
   return <div className="floor-platforms" aria-label="小红书、抖音、微信、快手、哔哩哔哩和微博">{platformLogos.map(([Logo, color, name]) => <span key={name} title={name} style={{ "--brand-color": color }}><Logo aria-hidden="true" /></span>)}</div>;
 }
 
-function StageFloor({ stage, metrics, onOpen, children }) {
+function StageFloor({ stage, metrics, onOpen, children, trendData, trendKey, trendColor, trendLabel = "近 7 日持续增长" }) {
   const meta = stageMeta[stage];
   const Icon = meta.icon;
   const colors = { violet: "#7653e8", blue: "#1f76e8", cyan: "#159fca", teal: "#159c90" };
@@ -347,19 +351,22 @@ function StageFloor({ stage, metrics, onOpen, children }) {
     initial={{ opacity: 0, y: 28 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.2 }} transition={{ duration: 0.55 }}>
     <div className="floor-identity"><span className="floor-number">{meta.number}</span><span className="floor-icon"><Icon size={28} weight="fill" /></span><div><span>{meta.subtitle}</span><h3>{meta.title}</h3><p>{meta.note}</p></div></div>
     <div className="floor-content">{children || <div className="floor-metrics">{metrics.map((item, index) => <div className="floor-metric" key={item.label}><span>{item.label}</span><strong><MetricValue item={item} delay={index * 0.04} /></strong><small>{item.note}</small></div>)}</div>}</div>
-    <div className="floor-insight"><span className="floor-trend-label"><Pulse size={15} weight="bold" />近 7 日持续增长</span><FloorSparkline data={floorTrends[stage]} color={colors[meta.tone]} />{stage === "search" && <PlatformMiniatures />}<button className="floor-link" type="button" onClick={(event) => { event.stopPropagation(); onOpen(); }}>查看详情 <ArrowRight size={16} weight="bold" /></button></div>
+    <div className="floor-insight"><span className="floor-trend-label"><Pulse size={15} weight="bold" />{trendLabel}</span><FloorSparkline key={trendKey || stage} data={trendData || floorTrends[stage]} color={trendColor || colors[meta.tone]} />{stage === "search" && <PlatformMiniatures />}<button className="floor-link" type="button" onClick={(event) => { event.stopPropagation(); onOpen(); }}>查看详情 <ArrowRight size={16} weight="bold" /></button></div>
   </motion.article>;
 }
 
 function GeoFloor({ onOpen }) {
   const [tab, setTab] = useState("visibility");
-  return <StageFloor stage="geo" onOpen={() => onOpen("geo", tab)}>
+  const trendMeta = tab === "visibility"
+    ? { color: "#7653e8", label: "AI 可见度持续增长" }
+    : { color: "#cf5aa4", label: "发文量稳步提升" };
+  return <StageFloor stage="geo" onOpen={() => onOpen("geo", tab)} trendData={geoFloorTrends[tab]} trendKey={tab} trendColor={trendMeta.color} trendLabel={trendMeta.label}>
     <div className="geo-floor-content">
       <div className="floor-tabs" role="tablist" aria-label="GEO核心数据类型">
-        <button role="tab" aria-selected={tab === "visibility"} className={tab === "visibility" ? "active" : ""} onClick={(event) => { event.stopPropagation(); setTab("visibility"); }}>AI可见度分析</button>
-        <button role="tab" aria-selected={tab === "media"} className={tab === "media" ? "active" : ""} onClick={(event) => { event.stopPropagation(); setTab("media"); }}>发文数据分析</button>
+        <button role="tab" aria-selected={tab === "visibility"} className={tab === "visibility" ? "active" : ""} onClick={(event) => { event.stopPropagation(); setTab("visibility"); }}><span className="floor-tab-icon"><Target size={19} weight="fill" /></span><span><b>AI可见度分析</b><small>曝光与收录</small></span></button>
+        <button role="tab" aria-selected={tab === "media"} className={tab === "media" ? "active" : ""} onClick={(event) => { event.stopPropagation(); setTab("media"); }}><span className="floor-tab-icon"><NewspaperClipping size={19} weight="fill" /></span><span><b>发文数据分析</b><small>发布与引用</small></span></button>
       </div>
-      <div className="floor-metrics geo-floor-metrics" role="tabpanel">{geoSummary[tab].map((item, index) => <div className="floor-metric" key={item.label}><span>{item.label}</span><strong><MetricValue item={item} delay={index * 0.04} /></strong><small>{item.note}</small></div>)}</div>
+      <motion.div key={tab} className="floor-metrics geo-floor-metrics" role="tabpanel" initial={{ opacity: 0, x: 8 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: .24 }}>{geoSummary[tab].map((item, index) => <div className="floor-metric" key={item.label}><span>{item.label}</span><strong><MetricValue item={item} delay={index * 0.04} /></strong><small>{item.note}</small></div>)}</motion.div>
     </div>
   </StageFloor>;
 }
@@ -460,10 +467,10 @@ function ChannelDetail() {
   const [type, setType] = useState("全部渠道");
   const rows = useMemo(() => type === "全部渠道" ? channelRows : channelRows.filter((row) => row[0] === type), [type]);
   return <div className="detail-sections"><DetailKpis items={floorMetrics.channel} />
-    <div className="detail-two-col wide-left"><DetailSection title="承接事件趋势" subtitle="广告点击与官网访问按日汇总"><DetailTrend data={floorTrends.channel} color="#159fca" /></DetailSection>
-      <DetailSection title="渠道承接构成" subtitle="数量不直接换算成交"><div className="channel-cards"><article><span><Megaphone size={22} weight="fill" /></span><div><b>搜索广告</b><strong>1,946</strong><small>广告点击事件</small></div></article><article><span><Desktop size={22} weight="fill" /></span><div><b>企业官网</b><strong>549</strong><small>可追踪访问事件</small></div></article><article><span><ChatsCircle size={22} weight="fill" /></span><div><b>留资承接</b><strong>326</strong><small>广告与官网汇总</small></div></article></div></DetailSection></div>
+    <div className="detail-two-col wide-left"><DetailSection title="承接事件趋势" subtitle="官网访问与广告点击按日汇总"><DetailTrend data={floorTrends.channel} color="#159fca" /></DetailSection>
+      <DetailSection title="渠道承接构成" subtitle="数量不直接换算成交"><div className="channel-cards"><article><span><Desktop size={22} weight="fill" /></span><div><b>企业官网</b><strong>549</strong><small>可追踪访问事件</small></div></article><article><span><Megaphone size={22} weight="fill" /></span><div><b>搜索广告</b><strong>1,946</strong><small>广告点击事件</small></div></article><article><span><ChatsCircle size={22} weight="fill" /></span><div><b>留资承接</b><strong>326</strong><small>官网与广告汇总</small></div></article></div></DetailSection></div>
     <DetailSection title="承接渠道明细" subtitle="查看具体广告来源、官网页面和下游留资" action={<button className="text-action" type="button" onClick={() => downloadCsv("承接渠道明细.csv", ["渠道", "来源", "落地位置", "点击/访问", "下游留资", "更新时间"], rows)}><DownloadSimple size={15} />导出</button>}>
-      <FilterChips label="承接渠道筛选" options={["全部渠道", "广告", "官网"]} value={type} onChange={setType} /><DataTable headers={["渠道", "来源", "落地位置", "点击 / 访问", "下游留资", "更新时间"]} rows={rows} />
+      <FilterChips label="承接渠道筛选" options={["全部渠道", "官网", "广告"]} value={type} onChange={setType} /><DataTable headers={["渠道", "来源", "落地位置", "点击 / 访问", "下游留资", "更新时间"]} rows={rows} />
     </DetailSection>
   </div>;
 }
@@ -471,11 +478,11 @@ function ChannelDetail() {
 function BehaviorDetail() {
   const [type, setType] = useState("全部行为");
   const rows = useMemo(() => type === "全部行为" ? behaviorRows : behaviorRows.filter((row) => row[0] === type), [type]);
-  return <div className="detail-sections"><div className="definition-note"><FunnelSimple size={20} weight="fill" /><div><b>最终行为口径</b><span>咨询留资为真实互动事件；电话曝光与地址曝光仅表示信息在 AI、搜索或地图结果中出现，不代表已拨打或已到店。</span></div></div><DetailKpis items={floorMetrics.behavior} />
+  return <div className="detail-sections"><div className="definition-note"><FunnelSimple size={20} weight="fill" /><div><b>最终行为口径</b><span>电话曝光与地址曝光仅表示信息在 AI、搜索或地图结果中出现，不代表已拨打或已到店；咨询留资为真实互动事件。</span></div></div><DetailKpis items={floorMetrics.behavior} />
     <div className="detail-two-col wide-left"><DetailSection title="行为信号趋势" subtitle="按记录发生日期统计"><DetailTrend data={floorTrends.behavior} color="#159c90" /></DetailSection>
       <DetailSection title="行为来源分布" subtitle="可回溯至上游触点"><DistributionBars items={[["官网", 138, "#159fca"], ["广告", 112, "#3479e8"], ["GEO", 96, "#7653e8"], ["搜索", 74, "#4e9cdf"], ["商品卡", 42, "#9a6ce8"]]} total={462} /></DetailSection></div>
     <DetailSection title="最终行为明细" subtitle="来源路径、地区和访客标识均按隐私规则处理" action={<button className="text-action" type="button" onClick={() => downloadCsv("最终行为明细.csv", ["行为类型", "来源路径", "触点", "地区", "访客标识", "时间"], rows)}><DownloadSimple size={15} />导出</button>}>
-      <FilterChips label="行为类型筛选" options={["全部行为", "咨询留资", "电话曝光", "地址曝光"]} value={type} onChange={setType} /><DataTable headers={["行为类型", "完整来源路径", "触点", "地区", "访客标识", "时间"]} rows={rows} />
+      <FilterChips label="行为类型筛选" options={["全部行为", "电话曝光", "地址曝光", "咨询留资"]} value={type} onChange={setType} /><DataTable headers={["行为类型", "完整来源路径", "触点", "地区", "访客标识", "时间"]} rows={rows} />
     </DetailSection>
   </div>;
 }
