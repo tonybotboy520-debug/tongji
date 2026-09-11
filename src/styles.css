@@ -184,22 +184,39 @@ main { width: min(100%, 1540px); margin-inline: auto; padding: 28px clamp(24px, 
 .node-value { display: block; font-size: 31px; line-height: 1.08; letter-spacing: -1px; font-variant-numeric: tabular-nums; }
 .node-value.violet { color: #5730dc; } .node-value.blue { color: #0b6ee4; } .node-value.teal { color: #057c84; }
 .mini-chip { color: #6941e9; background: #eee9ff; border: 1px solid #ded5ff; border-radius: 999px; padding: 3px 8px; font-size: 10px; font-weight: 700; }
-.icon-bubble { flex: 0 0 auto; width: 54px; height: 54px; display: grid; place-items: center; border-radius: 50%; }
-.icon-bubble.violet { color: #6841e9; background: linear-gradient(145deg, #eee8ff, #f9f7ff); }
-.icon-bubble.blue { color: #1479ed; background: linear-gradient(145deg, #e3efff, #f5f9ff); }
-.icon-bubble.teal { color: #069294; background: linear-gradient(145deg, #dcf7f5, #f6ffff); }
-.geo-card { left: 1.5%; top: 25%; width: 18.3%; min-height: 144px; }
-.product-card { left: 1.3%; top: 70%; width: 16.6%; min-height: 136px; }
-.site-card { left: 56.8%; top: 27%; width: 16.2%; }
-.ad-card { left: 56.8%; top: 55%; width: 16.2%; }
-.phone-card { left: 82.7%; top: 19%; width: 15.5%; }
-.address-card { left: 82.7%; top: 45.5%; width: 15.5%; }
-.lead-card { left: 82.7%; top: 72%; width: 15.5%; }
+.icon-bubble {
+  --icon-ink: #6745dc;
+  --icon-mid: #8b70ed;
+  --icon-wash: #f0ebff;
+  --icon-glow: rgba(103,69,220,.2);
+  position: relative; isolation: isolate; flex: 0 0 auto; width: 52px; height: 52px; display: grid; place-items: center; overflow: hidden; color: var(--icon-ink);
+  border: 1px solid rgba(255,255,255,.95); border-radius: 50%;
+  background: radial-gradient(circle at 30% 24%, rgba(255,255,255,.98) 0 10%, transparent 31%), linear-gradient(145deg, rgba(255,255,255,.94), var(--icon-wash));
+  box-shadow: 0 8px 20px var(--icon-glow), inset 0 1px 2px rgba(255,255,255,.95), inset 0 -5px 12px color-mix(in srgb, var(--icon-mid) 10%, transparent);
+}
+.icon-bubble::before { content: ""; position: absolute; inset: 7px; z-index: -1; border: 1px solid color-mix(in srgb, var(--icon-mid) 18%, white); border-radius: 50%; background: linear-gradient(150deg, color-mix(in srgb, var(--icon-wash) 54%, white), color-mix(in srgb, var(--icon-mid) 12%, white)); box-shadow: inset 0 1px 1px rgba(255,255,255,.92); }
+.icon-bubble::after { content: ""; position: absolute; right: 8px; top: 7px; width: 5px; height: 5px; border: 1px solid rgba(255,255,255,.9); border-radius: 50%; background: var(--icon-mid); box-shadow: 0 2px 5px var(--icon-glow); opacity: .72; }
+.icon-glyph { position: relative; z-index: 1; display: grid; place-items: center; filter: drop-shadow(0 2px 3px var(--icon-glow)); }
+.icon-glyph svg { display: block; }
+.icon-bubble.violet { --icon-ink: #6745dc; --icon-mid: #8b70ed; --icon-wash: #eee9ff; --icon-glow: rgba(103,69,220,.18); }
+.icon-bubble.plum { --icon-ink: #8244d3; --icon-mid: #b16ce1; --icon-wash: #f4eaff; --icon-glow: rgba(130,68,211,.17); }
+.icon-bubble.blue { --icon-ink: #176fdf; --icon-mid: #53a0f0; --icon-wash: #e8f2ff; --icon-glow: rgba(23,111,223,.16); }
+.icon-bubble.sky { --icon-ink: #287fd5; --icon-mid: #61b7e9; --icon-wash: #e8f7ff; --icon-glow: rgba(40,127,213,.16); }
+.icon-bubble.teal { --icon-ink: #07898d; --icon-mid: #43b9b4; --icon-wash: #e3f9f7; --icon-glow: rgba(7,137,141,.16); }
+.icon-bubble.aqua { --icon-ink: #10849d; --icon-mid: #4fc3c8; --icon-wash: #e3f8fb; --icon-glow: rgba(16,132,157,.16); }
+.icon-bubble.mint { --icon-ink: #138d82; --icon-mid: #5cc8a9; --icon-wash: #e5faf3; --icon-glow: rgba(19,141,130,.16); }
+.geo-card { left: 1.6%; top: 25%; width: 18.3%; min-height: 144px; }
+.product-card { left: 2.45%; top: 70%; width: 16.6%; min-height: 136px; }
+.site-card { left: 56.4%; top: 27%; width: 16.2%; }
+.ad-card { left: 56.4%; top: 55%; width: 16.2%; }
+.phone-card { left: 80.25%; top: 19%; width: 15.5%; }
+.address-card { left: 80.25%; top: 45.5%; width: 15.5%; }
+.lead-card { left: 80.25%; top: 72%; width: 15.5%; }
 .geo-card, .product-card { background: linear-gradient(135deg, rgba(255,255,255,.98), rgba(239,232,255,.9)); }
 .ad-card, .site-card { background: linear-gradient(135deg, rgba(255,255,255,.98), rgba(229,243,255,.9)); }
 .phone-card, .address-card, .lead-card { background: linear-gradient(135deg, rgba(255,255,255,.98), rgba(222,248,248,.9)); }
 
-.search-hub { left: 28.2%; top: 22.5%; width: 21.8%; height: 56.8%; padding: 14px 16px 13px; background: linear-gradient(145deg, rgba(255,255,255,.98), rgba(234,243,255,.91) 62%, rgba(241,236,255,.88)); }
+.search-hub { left: 26.35%; top: 22.5%; width: 21.8%; height: 56.8%; padding: 14px 16px 13px; background: linear-gradient(145deg, rgba(255,255,255,.98), rgba(234,243,255,.91) 62%, rgba(241,236,255,.88)); }
 .hub-heading { height: 43px; display: flex; align-items: center; gap: 11px; }
 .hub-heading .icon-bubble { width: 43px; height: 43px; }
 .hub-heading h3 { font-size: 20px; }

@@ -79,13 +79,13 @@ const cardMotion = {
 };
 
 const nodeCards = [
-  { id: "geo-card", className: "geo-card", icon: Robot, title: "GEO", chip: "AI 搜索引擎", metric: "AI 推荐曝光量", value: 12860, tone: "violet" },
-  { id: "product-card", className: "product-card", icon: ShoppingBagOpen, title: "商品卡", metric: "商品卡出卡量", value: 2315, tone: "violet" },
-  { id: "site-card", className: "site-card", icon: Desktop, title: "官网", metric: "官网曝光量", value: 3680, tone: "blue" },
-  { id: "ad-card", className: "ad-card", icon: Megaphone, title: "广告", metric: "广告点击量", value: 1946, tone: "blue" },
-  { id: "phone-card", className: "phone-card", icon: Phone, title: "电话", metric: "电话曝光量", value: 418, tone: "teal" },
-  { id: "address-card", className: "address-card", icon: MapPin, title: "地址", metric: "地址曝光量", value: 276, tone: "teal" },
-  { id: "lead-card", className: "lead-card", icon: ChatsCircle, title: "咨询留资", metric: "咨询留资量", value: 326, tone: "teal" },
+  { id: "geo-card", className: "geo-card", icon: Robot, iconTone: "violet", title: "GEO", chip: "AI 搜索引擎", metric: "AI 推荐曝光量", value: 12860, tone: "violet" },
+  { id: "product-card", className: "product-card", icon: ShoppingBagOpen, iconTone: "plum", title: "商品卡", metric: "商品卡出卡量", value: 2315, tone: "violet" },
+  { id: "site-card", className: "site-card", icon: Desktop, iconTone: "blue", title: "官网", metric: "官网曝光量", value: 3680, tone: "blue" },
+  { id: "ad-card", className: "ad-card", icon: Megaphone, iconTone: "sky", title: "广告", metric: "广告点击量", value: 1946, tone: "blue" },
+  { id: "phone-card", className: "phone-card", icon: Phone, iconTone: "teal", title: "电话", metric: "电话曝光量", value: 418, tone: "teal" },
+  { id: "address-card", className: "address-card", icon: MapPin, iconTone: "aqua", title: "地址", metric: "地址曝光量", value: 276, tone: "teal" },
+  { id: "lead-card", className: "lead-card", icon: ChatsCircle, iconTone: "mint", title: "咨询留资", metric: "咨询留资量", value: 326, tone: "teal" },
 ];
 
 const platformLogos = [
@@ -98,19 +98,19 @@ const platformLogos = [
 ];
 
 const connectorPaths = [
-  { id: "geo-search", from: "geo-card", to: "search-hub", tone: "purple", d: "M198 210 C226 210 250 225 282 225", tip: "GEO带动主动搜索", tipX: 239, tipY: 201 },
-  { id: "geo-product", from: "geo-card", to: "product-card", tone: "purple", d: "M108 281 C108 320 98 350 98 385", tip: "GEO直接触发商品卡", tipX: 173, tipY: 331 },
-  { id: "geo-phone", from: "geo-card", to: "phone-card", tone: "purple", d: "M154 137 C290 49 745 48 900 104", tip: "AI回答展示联系电话", tipX: 706, tipY: 63 },
-  { id: "geo-site", from: "geo-card", to: "site-card", tone: "purple", d: "M180 140 C320 103 602 106 650 149", tip: "GEO推荐直达官网", tipX: 465, tipY: 103 },
-  { id: "geo-address", from: "geo-card", to: "address-card", tone: "purple", d: "M169 139 C310 76 704 77 827 280", tip: "AI回答展示地址", tipX: 620, tipY: 78 },
-  { id: "product-phone", from: "product-card", to: "phone-card", tone: "purple", d: "M179 453 C330 520 900 522 900 216", tip: "商品卡引导电话咨询", tipX: 555, tipY: 506 },
-  { id: "search-site", from: "search-hub", to: "site-card", tone: "blue", d: "M500 188 C528 188 540 204 568 204", tip: "搜索结果进入官网", tipX: 535, tipY: 181 },
-  { id: "search-ad", from: "search-hub", to: "ad-card", tone: "blue", d: "M500 254 C536 254 535 344 568 344", tip: "搜索结果进入广告", tipX: 542, tipY: 281 },
-  { id: "search-address", from: "search-hub", to: "address-card", tone: "blue", d: "M500 318 C590 331 725 306 827 292", tip: "搜索结果展示地址", tipX: 702, tipY: 309 },
-  { id: "site-phone", from: "site-card", to: "phone-card", tone: "teal", d: "M730 180 C765 180 792 180 827 180", tip: "官网引导电话咨询", tipX: 779, tipY: 168 },
-  { id: "site-address", from: "site-card", to: "address-card", tone: "teal", d: "M730 204 C770 220 787 302 827 318", tip: "官网提供到店地址", tipX: 784, tipY: 252 },
-  { id: "site-lead", from: "site-card", to: "lead-card", tone: "teal", d: "M730 220 C780 252 789 430 827 450", tip: "官网表单产生留资", tipX: 786, tipY: 337 },
-  { id: "ad-lead", from: "ad-card", to: "lead-card", tone: "teal", d: "M730 358 C786 361 825 390 827 424", tip: "广告点击产生留资", tipX: 784, tipY: 374 },
+  { id: "geo-search", from: "geo-card", to: "search-hub", tone: "purple", d: "M198 210 C224 210 240 225 264 225", tip: "GEO带动主动搜索", tipX: 231, tipY: 201 },
+  { id: "geo-product", from: "geo-card", to: "product-card", tone: "purple", d: "M108 281 C108 320 107 350 107 385", tip: "GEO直接触发商品卡", tipX: 173, tipY: 331 },
+  { id: "geo-phone", from: "geo-card", to: "phone-card", tone: "purple", d: "M154 137 C290 49 724 48 880 104", tip: "AI回答展示联系电话", tipX: 690, tipY: 63 },
+  { id: "geo-site", from: "geo-card", to: "site-card", tone: "purple", d: "M180 140 C320 103 598 106 645 149", tip: "GEO推荐直达官网", tipX: 465, tipY: 103 },
+  { id: "geo-address", from: "geo-card", to: "address-card", tone: "purple", d: "M169 139 C310 76 682 77 803 280", tip: "AI回答展示地址", tipX: 607, tipY: 78 },
+  { id: "product-phone", from: "product-card", to: "phone-card", tone: "purple", d: "M190 453 C330 520 880 522 880 216", tip: "商品卡引导电话咨询", tipX: 548, tipY: 506 },
+  { id: "search-site", from: "search-hub", to: "site-card", tone: "blue", d: "M482 188 C518 188 536 204 564 204", tip: "搜索结果进入官网", tipX: 524, tipY: 181 },
+  { id: "search-ad", from: "search-hub", to: "ad-card", tone: "blue", d: "M482 254 C526 254 531 344 564 344", tip: "搜索结果进入广告", tipX: 532, tipY: 281 },
+  { id: "search-address", from: "search-hub", to: "address-card", tone: "blue", d: "M482 318 C575 331 704 306 803 292", tip: "搜索结果展示地址", tipX: 678, tipY: 309 },
+  { id: "site-phone", from: "site-card", to: "phone-card", tone: "teal", d: "M726 180 C750 180 778 180 803 180", tip: "官网引导电话咨询", tipX: 764, tipY: 168 },
+  { id: "site-address", from: "site-card", to: "address-card", tone: "teal", d: "M726 204 C755 220 773 302 803 318", tip: "官网提供到店地址", tipX: 767, tipY: 252 },
+  { id: "site-lead", from: "site-card", to: "lead-card", tone: "teal", d: "M726 220 C762 252 775 430 803 450", tip: "官网表单产生留资", tipX: 770, tipY: 337 },
+  { id: "ad-lead", from: "ad-card", to: "lead-card", tone: "teal", d: "M726 358 C765 361 801 390 803 424", tip: "广告点击产生留资", tipX: 765, tipY: 374 },
 ];
 
 function BrandMark() {
@@ -118,7 +118,7 @@ function BrandMark() {
 }
 
 function IconBubble({ Icon, tone }) {
-  return <span className={`icon-bubble ${tone}`} aria-hidden="true"><Icon size={30} weight="fill" /></span>;
+  return <span className={`icon-bubble ${tone}`} aria-hidden="true"><span className="icon-glyph"><Icon size={29} weight="duotone" /></span></span>;
 }
 
 function NodeCard({ data, index, activeNodeId, setActiveNodeId }) {
@@ -132,7 +132,7 @@ function NodeCard({ data, index, activeNodeId, setActiveNodeId }) {
       onFocus={() => setActiveNodeId(data.id)}
       onBlur={() => setActiveNodeId((current) => current === data.id ? null : current)}
       {...cardMotion} transition={{ ...cardMotion.transition, delay: 0.18 + index * 0.055 }}>
-      <IconBubble Icon={Icon} tone={data.tone} />
+      <IconBubble Icon={Icon} tone={data.iconTone || data.tone} />
       <div className="node-copy">
         <div className="node-title-line"><h3>{data.title}</h3>{data.chip && <span className="mini-chip">{data.chip}</span>}</div>
         <p>{data.metric}</p>
