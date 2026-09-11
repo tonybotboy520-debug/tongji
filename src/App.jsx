@@ -383,8 +383,7 @@ const geoSummary = {
     { label: "目标词", value: 22, note: "重点业务词" },
     { label: "拓展词", value: 1291, note: "跨平台去重" },
     { label: "品牌收录", value: 1025, note: "AI 回答出现" },
-    { label: "官网曝光", value: 549, note: "出现不等于访问" },
-    { label: "电话曝光", value: 2399, note: "出现不等于拨打" },
+    { label: "覆盖 AI 平台", value: platformBars.length, suffix: "个", note: "有品牌收录", fixed: true },
   ],
   media: [
     { label: "成功发文", value: 24, suffix: "篇", note: "已发布" },
@@ -455,7 +454,7 @@ function GeoFloor({ onOpen, scale }) {
         <button role="tab" aria-selected={tab === "visibility"} className={tab === "visibility" ? "active" : ""} onClick={(event) => { event.stopPropagation(); setTab("visibility"); }}><span className="floor-tab-icon"><Target size={19} weight="fill" /></span><span><b>AI可见度分析</b><small>曝光与收录</small></span></button>
         <button role="tab" aria-selected={tab === "media"} className={tab === "media" ? "active" : ""} onClick={(event) => { event.stopPropagation(); setTab("media"); }}><span className="floor-tab-icon"><NewspaperClipping size={19} weight="fill" /></span><span><b>发文数据分析</b><small>发布与引用</small></span></button>
       </div>
-      <motion.div key={`${tab}-${scale}`} className="floor-metrics geo-floor-metrics" role="tabpanel" initial={{ opacity: 0, x: 8 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: .24 }}>{scaleMetricItems(geoSummary[tab], scale).map((item, index) => <div className="floor-metric" key={item.label}><span>{item.label}</span><strong><MetricValue item={item} delay={index * 0.04} /></strong><small>{item.note}</small></div>)}</motion.div>
+      <motion.div key={`${tab}-${scale}`} className="floor-metrics geo-floor-metrics" style={{ "--geo-metric-columns": geoSummary[tab].length }} role="tabpanel" initial={{ opacity: 0, x: 8 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: .24 }}>{scaleMetricItems(geoSummary[tab], scale).map((item, index) => <div className="floor-metric" key={item.label}><span>{item.label}</span><strong><MetricValue item={item} delay={index * 0.04} /></strong><small>{item.note}</small></div>)}</motion.div>
     </div>
   </StageFloor>;
 }

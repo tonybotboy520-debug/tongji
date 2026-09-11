@@ -357,7 +357,7 @@ tbody tr { transition: background .18s ease; } tbody tr:hover { background: #faf
 .floor-tabs button:nth-child(2).active { background: linear-gradient(110deg, #c653a1, #8556df); box-shadow: 0 8px 20px rgba(170,72,153,.22); }
 .floor-tabs button.active small { color: rgba(255,255,255,.72); }
 .floor-tabs button.active .floor-tab-icon { color: #fff; background: rgba(255,255,255,.18); transform: scale(1.04); }
-.geo-floor-metrics { grid-template-columns: repeat(5, minmax(95px, 1fr)); }
+.geo-floor-metrics { grid-template-columns: repeat(var(--geo-metric-columns, 5), minmax(95px, 1fr)); }
 .geo-floor-metrics .floor-metric { padding-left: 15px; padding-right: 15px; }
 .geo-floor-metrics .floor-metric strong { font-size: clamp(23px, 1.8vw, 30px); }
 
