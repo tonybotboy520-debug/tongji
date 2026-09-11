@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { animate, motion, useInView, useReducedMotion } from "motion/react";
 import {
   ArrowLeft, ArrowRight, ArrowUpRight, Article, Buildings, CalendarBlank,
-  ChartBar, ChartLineUp, ChatsCircle, CheckCircle, Circle, CircleNotch,
+  ChartBar, ChartLineUp, ChatsCircle, CheckCircle,
   Desktop, DownloadSimple, FunnelSimple, GlobeSimple, LinkSimple,
   MagnifyingGlass, MapPin, Megaphone, NewspaperClipping, Phone, Pulse,
   Robot, ShoppingBagOpen, Sparkle, Target, TrendUp, UsersThree,
@@ -17,6 +17,35 @@ import {
 } from "recharts";
 
 const numberFormatter = new Intl.NumberFormat("zh-CN");
+
+const DATE_PRESETS = [
+  { key: "7d", label: "近 7 天", start: "2026-09-05", end: "2026-09-11" },
+  { key: "30d", label: "近 30 天", start: "2026-08-13", end: "2026-09-11" },
+  { key: "month", label: "本月", start: "2026-09-01", end: "2026-09-11" },
+];
+
+const DEFAULT_PERIOD = DATE_PRESETS[0];
+
+function getPeriodDays(period) {
+  const start = new Date(`${period.start}T00:00:00`);
+  const end = new Date(`${period.end}T00:00:00`);
+  return Math.max(1, Math.round((end - start) / 86400000) + 1);
+}
+
+function getPeriodScale(period) {
+  return getPeriodDays(period) / 7;
+}
+
+function formatDateLabel(value) {
+  const [, month, day] = value.split("-");
+  return `${month}/${day}`;
+}
+
+function scaleMetricItems(items, scale) {
+  return items.map((item) => item.display || item.fixed
+    ? item
+    : { ...item, value: Math.max(1, Math.round(item.value * scale)) });
+}
 
 function CountUp({ value, suffix = "", duration = 1.35, delay = 0 }) {
   const ref = useRef(null);
@@ -60,12 +89,12 @@ const nodeCards = [
 ];
 
 const platformLogos = [
-  [SiXiaohongshu, "#ff2442", "小红书"],
-  [SiTiktok, "#111827", "抖音"],
-  [SiWechat, "#07c160", "微信"],
-  [SiKuaishou, "#ff5b2d", "快手"],
-  [SiBilibili, "#fb7299", "哔哩哔哩"],
-  [SiSinaweibo, "#f0442c", "微博"],
+  [SiXiaohongshu, "#ff2442", "#ffffff", "小红书"],
+  [SiTiktok, "#12141a", "#ffffff", "抖音"],
+  [SiWechat, "#07c160", "#ffffff", "微信"],
+  [SiKuaishou, "#ff5b2d", "#ffffff", "快手"],
+  [SiBilibili, "#fb7299", "#ffffff", "哔哩哔哩"],
+  [SiSinaweibo, "#ffd34f", "#e63c2f", "微博"],
 ];
 
 const connectorPaths = [
@@ -113,7 +142,7 @@ function NodeCard({ data, index, activeNodeId, setActiveNodeId }) {
   );
 }
 
-function SearchHub({ activeNodeId, setActiveNodeId }) {
+function SearchHub({ activeNodeId, setActiveNodeId, values }) {
   const active = activeNodeId === "search-hub";
   return (
     <motion.article id="search-hub" className={`search-hub${active ? " is-active" : ""}`} tabIndex="0" aria-label="搜索与内容平台数据"
@@ -125,22 +154,22 @@ function SearchHub({ activeNodeId, setActiveNodeId }) {
       <div className="hub-heading"><IconBubble Icon={MagnifyingGlass} tone="blue" /><h3>搜索</h3></div>
       <div className="search-metrics">
         <div className="search-unit">
-          <div className="search-label baidu"><SiBaidu aria-hidden="true" /><span>百度搜索</span></div>
-          <strong><CountUp value={3920} delay={0.35} /></strong>
+          <div className="search-label baidu"><span className="search-app-icon baidu-app" aria-hidden="true"><SiBaidu /></span><span>百度搜索</span></div>
+          <strong><CountUp value={values.baidu} delay={0.35} /></strong>
         </div>
         <div className="search-unit">
-          <div className="search-label so360"><span className="so360-logo" aria-hidden="true"><CircleNotch weight="bold" /><Circle weight="fill" /></span><span>360 搜索</span></div>
-          <strong><CountUp value={2360} delay={0.4} /></strong>
+          <div className="search-label so360"><span className="search-app-icon so360-app" aria-label="360搜索"><i aria-hidden="true" /></span><span>360 搜索</span></div>
+          <strong><CountUp value={values.so360} delay={0.4} /></strong>
         </div>
       </div>
       <div className="hub-divider" />
       <div className="content-metric">
         <div className="content-label"><span className="content-icon"><ChartLineUp size={17} weight="bold" /></span><span>内容平台访问量</span></div>
-        <strong><CountUp value={4302} delay={0.48} /></strong>
+        <strong><CountUp value={values.content} delay={0.48} /></strong>
         <div className="platform-logo-row" aria-label="覆盖小红书、抖音、微信、快手、哔哩哔哩和微博">
-          {platformLogos.map(([Logo, color, name], index) => (
+          {platformLogos.map(([Logo, background, color, name], index) => (
             <motion.span key={name} title={name} aria-label={name} initial={{ opacity: 0, scale: 0.4 }} animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.62 + index * 0.045, type: "spring", stiffness: 250, damping: 18 }} style={{ "--logo-color": color }}>
+              transition={{ delay: 0.62 + index * 0.045, type: "spring", stiffness: 250, damping: 18 }} style={{ "--logo-bg": background, "--logo-color": color }}>
               <Logo aria-hidden="true" />
             </motion.span>
           ))}
@@ -150,17 +179,77 @@ function SearchHub({ activeNodeId, setActiveNodeId }) {
   );
 }
 
-function RelationshipMap() {
+function DateRangePicker({ value, onChange }) {
+  const [open, setOpen] = useState(false);
+  const [draft, setDraft] = useState({ start: value.start, end: value.end });
+  const pickerRef = useRef(null);
+  const validDraft = draft.start && draft.end && draft.start <= draft.end;
+
+  useEffect(() => {
+    if (!open) return undefined;
+    const closeOnOutside = (event) => {
+      if (!pickerRef.current?.contains(event.target)) setOpen(false);
+    };
+    const closeOnEscape = (event) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("pointerdown", closeOnOutside);
+    document.addEventListener("keydown", closeOnEscape);
+    return () => {
+      document.removeEventListener("pointerdown", closeOnOutside);
+      document.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [open]);
+
+  const selectPreset = (preset) => {
+    setDraft({ start: preset.start, end: preset.end });
+    onChange(preset);
+    setOpen(false);
+  };
+
+  const applyCustom = () => {
+    if (!validDraft) return;
+    onChange({ key: `${draft.start}:${draft.end}`, label: "自定义", ...draft });
+    setOpen(false);
+  };
+
+  return <div className="date-picker" ref={pickerRef}>
+    <button className={`date-trigger${open ? " is-open" : ""}`} type="button" aria-haspopup="dialog" aria-expanded={open} onClick={() => setOpen((current) => !current)}>
+      <span className="date-trigger-icon"><CalendarBlank size={18} weight="bold" /></span>
+      <span><small>{value.label} · {getPeriodDays(value)} 天</small><b>{formatDateLabel(value.start)} — {formatDateLabel(value.end)}</b></span>
+      <ArrowUpRight size={15} weight="bold" aria-hidden="true" />
+    </button>
+    {open && <motion.div className="date-popover" role="dialog" aria-label="选择统计时间" initial={{ opacity: 0, y: -6, scale: .98 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ duration: .18 }}>
+      <div className="date-popover-head"><div><b>选择统计时间</b><span>切换后将同步更新看板数据</span></div><CalendarBlank size={20} weight="fill" /></div>
+      <div className="date-presets" role="group" aria-label="快捷日期范围">{DATE_PRESETS.map((preset) => <button type="button" key={preset.key} className={value.key === preset.key ? "active" : ""} onClick={() => selectPreset(preset)}>{preset.label}</button>)}</div>
+      <div className="date-fields">
+        <label><span>开始日期</span><input type="date" value={draft.start} max={draft.end} onInput={(event) => setDraft((current) => ({ ...current, start: event.target.value }))} /></label>
+        <i aria-hidden="true">—</i>
+        <label><span>结束日期</span><input type="date" value={draft.end} min={draft.start} max="2026-09-11" onInput={(event) => setDraft((current) => ({ ...current, end: event.target.value }))} /></label>
+      </div>
+      <button className="date-apply" type="button" disabled={!validDraft} onClick={applyCustom}>应用时间范围</button>
+    </motion.div>}
+  </div>;
+}
+
+function RelationshipMap({ period, onPeriodChange }) {
   const reduceMotion = useReducedMotion();
   const [activeNodeId, setActiveNodeId] = useState(null);
+  const scale = getPeriodScale(period);
+  const scaledNodes = nodeCards.map((card) => ({ ...card, value: Math.max(1, Math.round(card.value * scale)) }));
+  const searchValues = {
+    baidu: Math.max(1, Math.round(3920 * scale)),
+    so360: Math.max(1, Math.round(2360 * scale)),
+    content: Math.max(1, Math.round(4302 * scale)),
+  };
 
   return (
-    <section className="journey-panel" aria-labelledby="journey-title">
-      <div className="section-heading journey-heading">
-        <div><div className="heading-title-row"><Sparkle size={20} weight="fill" aria-hidden="true" /><h1 id="journey-title">GEO获客旅程看板</h1></div><p>从 AI 曝光到实际用户行为的全链路转化路径</p></div>
-        <div className="date-chip" aria-label="当前统计周期 2026年9月5日至9月11日"><span>2026/09/05 — 09/11</span><CalendarBlank size={18} /></div>
+    <section className="journey-section" aria-labelledby="journey-title">
+      <div className="stage-heading journey-overview-heading">
+        <div><span className="section-kicker">FULL-FUNNEL JOURNEY</span><h1 id="journey-title">GEO获客旅程看板</h1><p>从 AI 曝光到实际用户行为的全链路转化路径</p></div>
+        <DateRangePicker value={period} onChange={onPeriodChange} />
       </div>
-      <div className={`journey-canvas${activeNodeId ? " has-active-node" : ""}`}>
+      <div className="journey-panel"><div className={`journey-canvas${activeNodeId ? " has-active-node" : ""}`}>
         <div className="zone zone-1"><h2>GEO 触达</h2><p>多元内容曝光 · 激发搜索意图</p></div>
         <div className="zone zone-2"><h2>搜索与内容平台</h2><p>搜索需求汇聚 · 内容种草触达</p></div>
         <div className="zone zone-3"><h2>承接渠道</h2><p>多触点承接流量 · 引导用户互动</p></div>
@@ -202,10 +291,10 @@ function RelationshipMap() {
           ))}
         </div>
         <div className="node-layer">
-          {nodeCards.map((card, index) => <NodeCard data={card} index={index} key={card.id} activeNodeId={activeNodeId} setActiveNodeId={setActiveNodeId} />)}
-          <SearchHub activeNodeId={activeNodeId} setActiveNodeId={setActiveNodeId} />
+          {scaledNodes.map((card, index) => <NodeCard data={card} index={index} key={card.id} activeNodeId={activeNodeId} setActiveNodeId={setActiveNodeId} />)}
+          <SearchHub activeNodeId={activeNodeId} setActiveNodeId={setActiveNodeId} values={searchValues} />
         </div>
-      </div>
+      </div></div>
     </section>
   );
 }
@@ -311,7 +400,7 @@ const floorMetrics = {
     { label: "百度搜索量", value: 3920, note: "本期有效搜索" },
     { label: "360 搜索量", value: 2360, note: "本期有效搜索" },
     { label: "内容平台访问", value: 4302, note: "六个平台聚合" },
-    { label: "覆盖平台", value: 6, suffix: "个", note: "内容阵地" },
+    { label: "覆盖平台", value: 6, suffix: "个", note: "内容阵地", fixed: true },
   ],
   channel: [
     { label: "官网曝光量", value: 3680, note: "AI 与搜索曝光" },
@@ -339,7 +428,7 @@ function FloorSparkline({ data, color }) {
 }
 
 function PlatformMiniatures() {
-  return <div className="floor-platforms" aria-label="小红书、抖音、微信、快手、哔哩哔哩和微博">{platformLogos.map(([Logo, color, name]) => <span key={name} title={name} style={{ "--brand-color": color }}><Logo aria-hidden="true" /></span>)}</div>;
+  return <div className="floor-platforms" aria-label="小红书、抖音、微信、快手、哔哩哔哩和微博">{platformLogos.map(([Logo, background, color, name]) => <span key={name} title={name} style={{ "--brand-bg": background, "--brand-color": color }}><Logo aria-hidden="true" /></span>)}</div>;
 }
 
 function StageFloor({ stage, metrics, onOpen, children, trendData, trendKey, trendColor, trendLabel = "近 7 日持续增长" }) {
@@ -355,7 +444,7 @@ function StageFloor({ stage, metrics, onOpen, children, trendData, trendKey, tre
   </motion.article>;
 }
 
-function GeoFloor({ onOpen }) {
+function GeoFloor({ onOpen, scale }) {
   const [tab, setTab] = useState("visibility");
   const trendMeta = tab === "visibility"
     ? { color: "#7653e8", label: "AI 可见度持续增长" }
@@ -366,19 +455,19 @@ function GeoFloor({ onOpen }) {
         <button role="tab" aria-selected={tab === "visibility"} className={tab === "visibility" ? "active" : ""} onClick={(event) => { event.stopPropagation(); setTab("visibility"); }}><span className="floor-tab-icon"><Target size={19} weight="fill" /></span><span><b>AI可见度分析</b><small>曝光与收录</small></span></button>
         <button role="tab" aria-selected={tab === "media"} className={tab === "media" ? "active" : ""} onClick={(event) => { event.stopPropagation(); setTab("media"); }}><span className="floor-tab-icon"><NewspaperClipping size={19} weight="fill" /></span><span><b>发文数据分析</b><small>发布与引用</small></span></button>
       </div>
-      <motion.div key={tab} className="floor-metrics geo-floor-metrics" role="tabpanel" initial={{ opacity: 0, x: 8 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: .24 }}>{geoSummary[tab].map((item, index) => <div className="floor-metric" key={item.label}><span>{item.label}</span><strong><MetricValue item={item} delay={index * 0.04} /></strong><small>{item.note}</small></div>)}</motion.div>
+      <motion.div key={`${tab}-${scale}`} className="floor-metrics geo-floor-metrics" role="tabpanel" initial={{ opacity: 0, x: 8 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: .24 }}>{scaleMetricItems(geoSummary[tab], scale).map((item, index) => <div className="floor-metric" key={item.label}><span>{item.label}</span><strong><MetricValue item={item} delay={index * 0.04} /></strong><small>{item.note}</small></div>)}</motion.div>
     </div>
   </StageFloor>;
 }
 
-function StageOverview({ onOpen }) {
+function StageOverview({ onOpen, scale }) {
   return <section className="stage-overview" id="stage-overview" aria-labelledby="detail-title">
     <div className="stage-heading"><div><span className="section-kicker">FULL-FUNNEL DATA</span><h2 id="detail-title">分阶段数据总览</h2><p>从 GEO 触达到最终行为，每个楼层展示阶段核心结果；进入详情可查看趋势、分布与逐条记录。</p></div><span className="updated-badge"><CheckCircle size={17} weight="fill" />数据更新至 09/11 18:00</span></div>
     <div className="floor-stack">
-      <GeoFloor onOpen={onOpen} />
-      <StageFloor stage="search" metrics={floorMetrics.search} onOpen={() => onOpen("search")} />
-      <StageFloor stage="channel" metrics={floorMetrics.channel} onOpen={() => onOpen("channel")} />
-      <StageFloor stage="behavior" metrics={floorMetrics.behavior} onOpen={() => onOpen("behavior")} />
+      <GeoFloor onOpen={onOpen} scale={scale} />
+      <StageFloor stage="search" metrics={scaleMetricItems(floorMetrics.search, scale)} onOpen={() => onOpen("search")} />
+      <StageFloor stage="channel" metrics={scaleMetricItems(floorMetrics.channel, scale)} onOpen={() => onOpen("channel")} />
+      <StageFloor stage="behavior" metrics={scaleMetricItems(floorMetrics.behavior, scale)} onOpen={() => onOpen("behavior")} />
     </div>
   </section>;
 }
@@ -511,6 +600,7 @@ export function App() {
   const initial = typeof window === "undefined" ? null : parseDetailHash();
   const [detailStage, setDetailStage] = useState(initial?.stage || null);
   const [geoTab, setGeoTabState] = useState(initial?.tab || "visibility");
+  const [period, setPeriod] = useState(DEFAULT_PERIOD);
 
   useEffect(() => {
     const sync = () => { const current = parseDetailHash(); setDetailStage(current?.stage || null); if (current?.tab) setGeoTabState(current.tab); };
@@ -525,7 +615,7 @@ export function App() {
   const changeGeoTab = (tab) => { setGeoTabState(tab); window.history.replaceState({ stage: "geo", tab }, "", `#stage/geo/${tab}`); };
   const closeDetail = () => { window.history.pushState({}, "", `${window.location.pathname}#stage-overview`); setDetailStage(null); requestAnimationFrame(() => document.getElementById("stage-overview")?.scrollIntoView({ block: "start" })); };
 
-  return <div className="app-shell"><Topbar />{detailStage ? <DetailPage stage={detailStage} geoTab={geoTab} setGeoTab={changeGeoTab} onBack={closeDetail} /> : <main><RelationshipMap /><StageOverview onOpen={openDetail} /></main>}
+  return <div className="app-shell"><Topbar />{detailStage ? <DetailPage stage={detailStage} geoTab={geoTab} setGeoTab={changeGeoTab} onBack={closeDetail} /> : <main><RelationshipMap period={period} onPeriodChange={setPeriod} /><StageOverview onOpen={openDetail} scale={getPeriodScale(period)} /></main>}
     {!detailStage && <a className="back-top" href="#journey-title" aria-label="返回顶部"><ArrowUpRight size={18} weight="bold" /></a>}
   </div>;
 }
